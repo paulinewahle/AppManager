@@ -1,0 +1,2 @@
+<?php
+SELECT * FROM apps
