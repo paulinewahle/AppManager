@@ -9,6 +9,6 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
 
 class UserModel{
     public $user_id;
-    public $user_name;
-    public $birth_year;
+    public $first_name;
+    public $last_name;
 }

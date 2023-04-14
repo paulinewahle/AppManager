@@ -1,0 +1,5 @@
+# uses mod_rewrite to redirect all incoming web requests to index.php, 
+# except for requests that match an existing file or directory, 
+# by appending the requested path as a query string parameter "path".
+RewriteEngine on
+RewriteRule ^(.*)$ index.php?path=$1 [NC,L,QSA]

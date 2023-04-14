@@ -7,8 +7,9 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
 
 // Model class for apps-table in database
 
-class AppsModel{
+class AppModel{
     public $app_id;
     public $app_name;
-    public $app_year;
+    public $description;
+    public $price;
 }
