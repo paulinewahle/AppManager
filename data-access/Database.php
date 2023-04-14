@@ -1,4 +1,3 @@
-<?php
 
 // Check for a defined constant or specific file inclusion
 if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
@@ -18,6 +17,7 @@ class Database
     protected $conn;
 
     // Connect to the database in the constructor so all member functions can use $this->conn
+    // constructor: code that runs every time a new instance of a class is created
     public function __construct()
     {
         $this->conn = mysqli_connect($this->host, $this->user, $this->pass, $this->db);
@@ -27,13 +27,9 @@ class Database
         }
     }
 
-    // Retrieves all rows from the specified 
-    // table in the database and returns the result.
-    protected function getAllRowsFromTable($apps)
+    protected function getAllRowsFromTable($table_name)
     {
-        // Variables inside the query are OK when the variables are not user input.
-        // Never use variables directly in queries when the variables value is user input.
-        $query = "SELECT * FROM {$apps}";
+        $query = "SELECT * FROM {$table_name}";
 
         $stmt = $this->conn->prepare($query);
 
@@ -44,15 +40,9 @@ class Database
         return $result;
     }
 
-    // Retrieves one from the specified 
-    // table in the database and returns the result.
-    protected function getOneRowByIdFromTable($apps, $id_name, $id)
+    protected function getOneRowByIdFromTable($table_name, $id_name, $id)
     {
-        // Variables inside the query are OK when the variables are not user input.
-        // Never use variables directly in queries when the variables value is user input.
-        // This includes data from the database that could come from a user
-        // Only use hard coded values OR white listed values directly in queries
-        $query = "SELECT * FROM {$apps} WHERE {$id_name} = ?";
+        $query = "SELECT * FROM {$table_name} WHERE {$id_name} = ?";
 
         $stmt = $this->conn->prepare($query);
 
@@ -65,15 +55,9 @@ class Database
         return $result;
     }
 
-    // Deletes one row from the specified 
-    // table in the database.
-    protected function deleteOneRowByIdFromTable($apps, $id_name, $id)
+    protected function deleteOneRowByIdFromTable($table_name, $id_name, $id)
     {
-        // Variables inside the query are OK when the variables are not user input.
-        // Never use variables directly in queries when the variables value is user input.
-        // This includes data from the database that could come from a user
-        // Only use hard coded values OR white listed values directly in queries
-        $query = "DELETE FROM {$apps} WHERE {$id_name} = ?";
+        $query = "DELETE FROM {$table_name} WHERE {$id_name} = ?";
 
         $stmt = $this->conn->prepare($query);
 
