@@ -88,7 +88,9 @@ class AppsAPI extends RestAPI
         $app = new AppModel();
 
         $app->app_name = $this->body["app_name"];
-        $app->birth_year = $this->body["birth_year"];
+        $app->description = $this->body["description"];
+        $app->price = $this->body["price"];
+        
 
         $success = AppsService::saveApp($app);
 
