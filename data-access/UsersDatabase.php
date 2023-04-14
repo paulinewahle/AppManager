@@ -8,46 +8,46 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
 // Use "require_once" to load the files needed for the class
 
 require_once __DIR__ . "/Database.php";
-require_once __DIR__ . "/../models/CustomerModel.php";
+require_once __DIR__ . "/../models/UserModel.php";
 
-class CustomersDatabase extends Database
+class UsersDatabase extends Database
 {
-    private $table_name = "customers";
-    private $id_name = "customer_id";
+    private $table_name = "users";
+    private $id_name = "user_id";
 
-    // Get one customer by using the inherited function getOneRowByIdFromTable
-    public function getOne($customer_id)
+    // Get one user by using the inherited function getOneRowByIdFromTable
+    public function getOne($user_id)
     {
-        $result = $this->getOneRowByIdFromTable($this->table_name, $this->id_name, $customer_id);
+        $result = $this->getOneRowByIdFromTable($this->table_name, $this->id_name, $user_id);
 
-        $customer = $result->fetch_object("CustomerModel");
+        $user = $result->fetch_object("UserModel");
 
-        return $customer;
+        return $user;
     }
 
 
-    // Get all customers by using the inherited function getAllRowsFromTable
+    // Get all users by using the inherited function getAllRowsFromTable
     public function getAll()
     {
         $result = $this->getAllRowsFromTable($this->table_name);
 
-        $customers = [];
+        $users = [];
 
-        while ($customer = $result->fetch_object("CustomerModel")) {
-            $customers[] = $customer;
+        while ($user = $result->fetch_object("UserModel")) {
+            $users[] = $user;
         }
 
-        return $customers;
+        return $users;
     }
 
     // Create one by creating a query and using the inherited $this->conn 
-    public function insert(CustomerModel $customer)
+    public function insert(UserModel $user)
     {
-        $query = "INSERT INTO customers (customer_name, birth_year) VALUES (?, ?)";
+        $query = "INSERT INTO users (user_name, birth_year) VALUES (?, ?)";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("si", $customer->customer_name, $customer->birth_year);
+        $stmt->bind_param("si", $user->user_name, $user->birth_year);
 
         $success = $stmt->execute();
 
@@ -55,23 +55,23 @@ class CustomersDatabase extends Database
     }
 
     // Update one by creating a query and using the inherited $this->conn 
-    public function updateById($customer_id, CustomerModel $customer)
+    public function updateById($user_id, UserModel $user)
     {
-        $query = "UPDATE customers SET customer_name=?, birth_year=? WHERE customer_id=?;";
+        $query = "UPDATE users SET user_name=?, birth_year=? WHERE user_id=?;";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("sii", $customer->customer_name, $customer->birth_year, $customer_id);
+        $stmt->bind_param("sii", $user->user_name, $user->birth_year, $user_id);
 
         $success = $stmt->execute();
 
         return $success;
     }
 
-    // Delete one customer by using the inherited function deleteOneRowByIdFromTable
-    public function deleteById($customer_id)
+    // Delete one user by using the inherited function deleteOneRowByIdFromTable
+    public function deleteById($user_id)
     {
-        $success = $this->deleteOneRowByIdFromTable($this->table_name, $this->id_name, $customer_id);
+        $success = $this->deleteOneRowByIdFromTable($this->table_name, $this->id_name, $user_id);
 
         return $success;
     }

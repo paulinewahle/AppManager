@@ -6,11 +6,11 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
 }
 
 require_once __DIR__ . "/RestAPI.php";
-require_once __DIR__ . "/../business-logic/CustomersService.php";
+require_once __DIR__ . "/../business-logic/UsersService.php";
 
-// Class for handling requests to "api/Customer"
+// Class for handling requests to "api/User"
 
-class CustomersAPI extends RestAPI
+class UsersAPI extends RestAPI
 {
 
     // Handles the request by calling the appropriate member function
@@ -19,37 +19,37 @@ class CustomersAPI extends RestAPI
 
         
         // If theres two parts in the path and the request method is GET 
-        // it means that the client is requesting "api/Customers" and
-        // we should respond by returning a list of all customers 
+        // it means that the client is requesting "api/Users" and
+        // we should respond by returning a list of all users 
         if ($this->method == "GET" && $this->path_count == 2) {
             $this->getAll();
         } 
 
         // If there's three parts in the path and the request method is GET
-        // it means that the client is requesting "api/Customers/{something}".
+        // it means that the client is requesting "api/Users/{something}".
         // In our API the last part ({something}) should contain the ID of a 
-        // customer and we should respond with the customer of that ID
+        // user and we should respond with the user of that ID
         else if ($this->path_count == 3 && $this->method == "GET") {
             $this->getById($this->path_parts[2]);
         }
 
         // If theres two parts in the path and the request method is POST 
-        // it means that the client is requesting "api/Customers" and we
-        // should get ths contents of the body and create a customer.
+        // it means that the client is requesting "api/Users" and we
+        // should get ths contents of the body and create a user.
         else if ($this->path_count == 2 && $this->method == "POST") {
             $this->postOne();
         }
 
         // If theres two parts in the path and the request method is PUT 
-        // it means that the client is requesting "api/Customers/{something}" and we
-        // should get the contents of the body and update the customer.
+        // it means that the client is requesting "api/Users/{something}" and we
+        // should get the contents of the body and update the user.
         else if ($this->path_count == 3 && $this->method == "PUT") {
             $this->putOne($this->path_parts[2]);
         } 
 
         // If theres two parts in the path and the request method is DELETE 
-        // it means that the client is requesting "api/Customers/{something}" and we
-        // should get the ID from the URL and delete that customer.
+        // it means that the client is requesting "api/Users/{something}" and we
+        // should get the ID from the URL and delete that user.
         else if ($this->path_count == 3 && $this->method == "DELETE") {
             $this->deleteOne($this->path_parts[2]);
         } 
@@ -60,37 +60,37 @@ class CustomersAPI extends RestAPI
         }
     }
 
-    // Gets all customers and sends them to the client as JSON
+    // Gets all users and sends them to the client as JSON
     private function getAll()
     {
-        $customers = CustomersService::getAllCustomers();
+        $users = UsersService::getAllUsers();
 
-        $this->sendJson($customers);
+        $this->sendJson($users);
     }
 
     // Gets one and sends it to the client as JSON
     private function getById($id)
     {
-        $customer = CustomersService::getCustomerById($id);
+        $user = UsersService::getUserById($id);
 
-        if ($customer) {
-            $this->sendJson($customer);
+        if ($user) {
+            $this->sendJson($user);
         }
         else {
             $this->notFound();
         }
     }
 
-    // Gets the contents of the body and saves it as a customer by 
+    // Gets the contents of the body and saves it as a user by 
     // inserting it in the database.
     private function postOne()
     {
-        $customer = new CustomerModel();
+        $user = new UserModel();
 
-        $customer->customer_name = $this->body["customer_name"];
-        $customer->birth_year = $this->body["birth_year"];
+        $user->user_name = $this->body["user_name"];
+        $user->birth_year = $this->body["birth_year"];
 
-        $success = CustomersService::saveCustomer($customer);
+        $success = UsersService::saveUser($user);
 
         if($success){
             $this->created();
@@ -100,16 +100,16 @@ class CustomersAPI extends RestAPI
         }
     }
 
-    // Gets the contents of the body and updates the customer
+    // Gets the contents of the body and updates the user
     // by sending it to the DB
     private function putOne($id)
     {
-        $customer = new CustomerModel();
+        $user = new UserModel();
 
-        $customer->customer_name = $this->body["customer_name"];
-        $customer->birth_year = $this->body["birth_year"];
+        $user->user_name = $this->body["user_name"];
+        $user->birth_year = $this->body["birth_year"];
 
-        $success = CustomersService::updateCustomerById($id, $customer);
+        $success = UsersService::updateUserById($id, $user);
 
         if($success){
             $this->ok();
@@ -119,16 +119,16 @@ class CustomersAPI extends RestAPI
         }
     }
 
-    // Deletes the customer with the specified ID in the DB
+    // Deletes the user with the specified ID in the DB
     private function deleteOne($id)
     {
-        $customer = CustomersService::getCustomerById($id);
+        $user = UsersService::getUserById($id);
 
-        if($customer == null){
+        if($user == null){
             $this->notFound();
         }
 
-        $success = CustomersService::deleteCustomerById($id);
+        $success = UsersService::deleteUserById($id);
 
         if($success){
             $this->noContent();
