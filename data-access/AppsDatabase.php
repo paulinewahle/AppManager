@@ -47,7 +47,7 @@ class AppsDatabase extends Database
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("si", $app->app_name, $app->description, $app->price);
+        $stmt->bind_param("sss", $app->app_name, $app->description, $app->price);
 
         $success = $stmt->execute();
 
@@ -61,7 +61,7 @@ class AppsDatabase extends Database
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("sii", $app->app_name, $app->description, $app->price, $app_id);
+        $stmt->bind_param("sssi", $app->app_name, $app->description, $app->price, $app_id);
 
         $success = $stmt->execute();
 

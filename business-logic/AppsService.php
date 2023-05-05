@@ -58,8 +58,8 @@ class AppsService{
 
     // Update the customer in the database by creating a database object 
     // from data-access layer and calling its update function.
-    public static function updateAppsById($app_id, AppsModel $app){
-        $apps_database = new AppssDatabase();
+    public static function updateAppById($app_id, AppModel $app){
+        $apps_database = new AppsDatabase();
 
         // If you need to validate data or control what 
         // gets saved to the database you can do that here.

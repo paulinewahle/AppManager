@@ -106,7 +106,7 @@ class UsersAPI extends RestAPI
     {
         $user = new UserModel();
 
-         $user->first_name = $this->body["first_name"];
+        $user->first_name = $this->body["first_name"];
         $user->last_name = $this->body["last_name"];
 
         $success = UsersService::updateUserById($id, $user);
